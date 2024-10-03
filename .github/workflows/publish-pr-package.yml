@@ -3,7 +3,7 @@ run-name: Publish PR Version
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, labeled]
+    types: [opened, reopened, synchronize, labeled, unlabeled]
 
 jobs:
   pre_publish: 
