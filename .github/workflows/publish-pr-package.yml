@@ -3,9 +3,18 @@ run-name: Publish PR Version
 
 on:
   pull_request:
-    types: [opened, synchronize, labeled]
+    types: [opened, reopened, synchronize, labeled]
 
 jobs:
+  pre_publish: 
+    name: Pre-Publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps: 
+      - name: Say Hello
+        run: sleep 15; echo "Hello World!"
+
   publish_npm:
     name: Publish package
     runs-on: ubuntu-latest
@@ -14,9 +23,9 @@ jobs:
     if: contains(github.event.pull_request.labels.*.name, 'pr deploy') || github.event_name == 'push'
 
     steps:
-      - name: Checkout PR
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
+      # - name: Checkout PR
+      #   uses: actions/checkout@v3
+      #   with:
+      #     fetch-depth: 2
       - name: get event name
-        run: cat ${{github.event_name}}
+        run: echo ${{github.event_name}}
