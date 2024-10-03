@@ -1,0 +1,17 @@
+name: Publish NPM package
+run-name: Publish PR Version
+
+on:
+  pull_request:
+    types: [opened, synchronize, labeled]
+
+jobs:
+  publish_npm:
+    name: Publish package
+    timeout-minutes: 30
+    
+    # if: contains(github.event.pull_request.labels.*.name, 'pr deploy') || github.event_name == 'push'
+
+    steps:
+      - name: echo
+        run: echo "hello world!"
