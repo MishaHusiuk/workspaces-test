@@ -46,12 +46,9 @@ jobs:
           always-auth=true
           EOF
       - name: Token length
-        uses: actions/github-script@v6
-        with:
-          result-encoding: string
-          script: |
-            const token = '${{secrets.GITHUB_TOKEN}}';
-            console.log('token length: ', token?.length)  # Access it directly
+        env: 
+          GH: ${{secrets.GITHUB_TOKEN}}
+        run: echo $GH
 
       - name: Publish to npm 
         env:
