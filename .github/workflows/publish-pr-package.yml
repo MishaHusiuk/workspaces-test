@@ -6,23 +6,22 @@ on:
     types: [opened, reopened, synchronize, labeled, unlabeled]
 
 jobs:
-  pre_publish: 
-    name: Pre-Publish
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+  # pre_publish: 
+  #   name: Pre-Publish
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 30
 
-    steps: 
-      # - name: Say Hello
-      #   run: sleep 15;
+  #   steps: 
+  #     # - name: Say Hello
+  #     #   run: sleep 15;
 
-      - name: Say Hello
-        run: echo "Hello World!"
-
+  #     - name: Say Hello
+  #       run: echo "Hello World!"
   publish_npm:
     name: Publish package
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    needs: pre_publish
+    #needs: pre_publish
     defaults:
       run:
         working-directory: ./packages/io
@@ -45,11 +44,6 @@ jobs:
           //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
           always-auth=true
           EOF
-      - name: Token length
-        env: 
-          GH: ${{secrets.GITHUB_TOKEN}}
-        run: echo $GH
-
       - name: Publish to npm 
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
