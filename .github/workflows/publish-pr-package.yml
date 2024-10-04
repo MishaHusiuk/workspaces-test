@@ -23,14 +23,27 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: pre_publish
+    defaults:
+      run:
+        working-directory: ./packages/io
     
     if: contains(github.event.pull_request.labels.*.name, 'pr deploy') || github.event_name == 'push'
 
     steps:
       - name: Checkout PR
         uses: actions/checkout@v3
-        # with:
-        #   fetch-depth: 3
-          # ref: 
-      - name: git log
-        run: git log
+      - name: Install dependencies
+        run: npm ci
+      - name: Authenticate npm registry
+        run: |
+          cat <<'EOF' >> .npmrc
+          registry=https://npm.pkg.github.com
+          @misha-huziuk:registry=https://npm.pkg.github.com
+          //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+          always-auth=true
+          EOF
+      - name: Publish to npm 
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: npm publish
+
