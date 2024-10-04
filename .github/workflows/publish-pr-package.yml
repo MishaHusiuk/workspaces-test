@@ -26,6 +26,9 @@ jobs:
     defaults:
       run:
         working-directory: ./packages/io
+    permissions:
+      packages: write
+      contents: read
     
     if: contains(github.event.pull_request.labels.*.name, 'pr deploy') || github.event_name == 'push'
 
