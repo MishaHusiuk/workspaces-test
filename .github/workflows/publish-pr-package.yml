@@ -47,12 +47,11 @@ jobs:
           EOF
       - name: Token length
         uses: actions/github-script@v6
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Pass the token here
         with:
           result-encoding: string
           script: |
-            console.log('token length: ', process.env.NODE_AUTH_TOKEN.length)  # Access it directly
+            const token = '${{secrets.GITHUB_TOKEN}}';
+            console.log('token length: ', token?.length)  # Access it directly
 
       - name: Publish to npm 
         env:
