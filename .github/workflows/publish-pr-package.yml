@@ -45,6 +45,8 @@ jobs:
           //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
           always-auth=true
           EOF
+      - name: log npmrc
+        run: pwd; cat .npmrc
       - name: Publish to npm 
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
