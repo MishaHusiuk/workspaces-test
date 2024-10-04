@@ -45,8 +45,15 @@ jobs:
           //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
           always-auth=true
           EOF
-      - name: log npmrc
-        run: pwd; cat .npmrc
+      - name: Token length
+        uses: actions/github-script@v6
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          result-encoding: string
+          script: |
+            let { GITHUB_TOKEN } = process.env
+            console.log('token length: ', GITHUB_TOKEN?.length)
       - name: Publish to npm 
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
