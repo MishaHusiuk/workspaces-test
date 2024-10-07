@@ -1,4 +1,4 @@
-const { add } = require('@MishaHusiuk/math-operations');
-const { print } = require('@MishaHusiuk/io');
+const { add } = require('@misha-huziuk/math-operations');
+const { print } = require('@misha-huziuk/io');
 
 print(`2 + 3: ${add(2, 3)}`);
