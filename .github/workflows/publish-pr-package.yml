@@ -38,7 +38,7 @@ jobs:
       - name: Authenticate npm registry
         run: |
           cat <<'EOF' >> .npmrc
-          @misha-huziuk:registry=https://npm.pkg.github.com
+          @misha-huziuk:registry=https://npm.pkg.github.com/MishaHusiuk
           //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
           always-auth=true
           EOF
