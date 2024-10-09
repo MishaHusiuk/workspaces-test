@@ -1,5 +1,5 @@
 name: Hello World
-run-name: Hello
+run-name: Hello ${{ inputs.name }}
 
 on:
   workflow_call:
@@ -20,4 +20,4 @@ jobs:
 
     steps:
       - name: print
-        run: echo ${{ inputs.name }}
+        run: echo "Hello ${{ inputs.name }}"

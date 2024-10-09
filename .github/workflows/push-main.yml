@@ -1,0 +1,12 @@
+name: Hello World
+run-name: Hello
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  print:
+    uses: ./.github/workflows/say-hello.yml
+    with:
+      name: main
