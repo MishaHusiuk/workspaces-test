@@ -1,12 +1,11 @@
 {
-  "name": "@misha-huziuk/io",
+  "name": "@MishaHusiuk/io",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/MishaHusiuk"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
