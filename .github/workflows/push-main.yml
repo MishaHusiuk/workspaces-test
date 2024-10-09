@@ -10,3 +10,4 @@ jobs:
     uses: ./.github/workflows/say-hello.yml
     with:
       name: main
+      agent: "TBD"

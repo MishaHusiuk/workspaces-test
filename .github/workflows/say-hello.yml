@@ -7,6 +7,9 @@ on:
       name:
         required: true
         type: string
+      agent: 
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
       name:
@@ -22,16 +25,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Retrieve node version
-        run: |
-          echo "NODE_VERSION=$(cat package.json | jq -r .engines.node)" >> $GITHUB_OUTPUT
-        id: node_version
-
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ steps.node_version.outputs.NODE_VERSION }}
-
+      - name: Format agent name
+        if: ${{ inputs.agent != '' }}
+        run: echo "AGENT_MESSAGE="Agent is ${{ inputs.agent }}"" >> $GITHUB_OUTPUT
+        id: format_agent
+      
+      - name: Print agent message
+        if: ${{ steps.format_agent.outputs.AGENT_MESSAGE != '' }}
+        run: echo ${{ steps.format_agent.outputs.AGENT_MESSAGE }}
+        
       - name: print
         run: |
           echo "Hello ${{ inputs.name }}"
