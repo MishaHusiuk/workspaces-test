@@ -26,6 +26,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Format agent name
+        run: echo "agent ${{ inputs.agent }}"
+        
+      - name: Format agent name
         if: ${{ inputs.agent != '' }}
         run: echo "AGENT_MESSAGE="Agent is ${{ inputs.agent }}"" >> $GITHUB_OUTPUT
         id: format_agent
