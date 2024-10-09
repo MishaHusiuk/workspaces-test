@@ -25,6 +25,7 @@ jobs:
       - name: Retrieve node version
         run: |
           echo "NODE_VERSION=$(cat package.json | jq -r .engines.node)" >> $GITHUB_OUTPUT
+          echo $(cat package.json | jq -r .engines.node)
         id: node_version
 
       - name: Setup node
