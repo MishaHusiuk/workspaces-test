@@ -19,5 +19,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: $(cat package.json | jq -r .engines.node)
+
       - name: print
-        run: echo "Hello ${{ inputs.name }}"
+        run: |
+          echo "Hello ${{ inputs.name }}"
+          node -v
