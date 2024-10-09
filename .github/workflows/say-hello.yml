@@ -22,10 +22,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Retrieve node version
+        run: |
+          echo "NODE_VERSION=$(cat package.json | jq -r .engines.node)" >> $GITHUB_OUTPUT
+        id: node_version
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: cat package.json | jq -r .engines.node
+          node-version: ${{ steps.node_version.outputs.NODE_VERSION }}
 
       - name: print
         run: |
