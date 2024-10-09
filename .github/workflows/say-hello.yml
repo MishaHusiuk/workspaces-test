@@ -14,7 +14,10 @@ on:
     inputs:
       name:
         required: true
-        type: string
+        type: choice
+        options: 
+          - world
+          - misha
 
 jobs:
   print:
@@ -27,7 +30,7 @@ jobs:
 
       - name: Format agent name
         run: echo "agent ${{ inputs.agent }}"
-        
+
       - name: Format agent name
         if: ${{ inputs.agent != '' }}
         run: echo "AGENT_MESSAGE="Agent is ${{ inputs.agent }}"" >> $GITHUB_OUTPUT
