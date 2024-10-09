@@ -1,0 +1,23 @@
+name: Hello World
+run-name: Hello
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      name:
+        required: true
+        type: string
+
+jobs:
+  print:
+    name: Print message
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: print
+        run: echo ${{ inputs.name }}
