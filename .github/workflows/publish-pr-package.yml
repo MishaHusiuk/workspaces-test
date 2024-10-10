@@ -46,5 +46,5 @@ jobs:
         working-directory: ./packages/io
         run: |
           npm pkg set version=1.0.1-pr1.1
-          npm unpublish
+          npm unpublish --force
 
