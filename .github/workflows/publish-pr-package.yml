@@ -47,5 +47,6 @@ jobs:
         working-directory: ./packages/io
         run: |
           # npm pkg set version=1.0.1-pr1.1
-          npm unpublish @MishaHusiuk/io@1.0.1-pr1.1
+          # npm unpublish @MishaHusiuk/io@1.0.1-pr1.1
+          npm deprecate @MishaHusiuk/io@1.0.1-pr1.1 "This version is deprecated."
 
