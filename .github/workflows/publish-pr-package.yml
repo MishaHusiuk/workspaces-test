@@ -3,15 +3,50 @@ run-name: Publish PR Version
 
 on:
   pull_request:
-    types: [opened, synchronize, labeled]
+    types: [opened, reopened, synchronize, labeled, unlabeled]
+
+env:
+  PR_NUMBER: ${{ github.event.pull_request.number }}
 
 jobs:
   publish_npm:
     name: Publish package
-    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    permissions:
+      packages: write
+      contents: read
     
-    # if: contains(github.event.pull_request.labels.*.name, 'pr deploy') || github.event_name == 'push'
+    if: contains(github.event.pull_request.labels.*.name, 'pr deploy') || github.event_name == 'push'
 
     steps:
-      - name: echo
-        run: echo "hello world!"
+      - name: Checkout PR
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./packages/io
+      - name: Authenticate npm registry
+        run: |
+          cat <<'EOF' >> .npmrc
+          registry=https://npm.pkg.github.com/
+          @MishaHusiuk:registry=https://npm.pkg.github.com/
+          //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+          always-auth=true
+          EOF
+    
+      - name: Publish to npm 
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        working-directory: ./packages/io
+        run: |
+          npm publish
+        
+      - name: Unpublish previous pr version
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        working-directory: ./packages/io
+        run: |
+          # npm pkg set version=1.0.1-pr1.1
+          # npm unpublish @MishaHusiuk/io@1.0.1-pr1.1
+          npm deprecate @MishaHusiuk/io@1.0.1-pr1.1 "This version is deprecated."
+

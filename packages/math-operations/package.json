@@ -1,8 +1,11 @@
 {
-  "name": "math-operations",
+  "name": "@MishaHusiuk/math-operations",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
