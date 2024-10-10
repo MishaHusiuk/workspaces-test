@@ -45,6 +45,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         working-directory: ./packages/io
         run: |
-          npm pkg set version=1.0.1-pr1.1
-          npm unpublish --force
+          # npm pkg set version=1.0.1-pr1.1
+          npm unpublish @MishaHusiuk/io@1.0.1-pr1.1
 
