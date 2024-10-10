@@ -41,7 +41,7 @@ jobs:
           npm publish
         
       - name: Unpublish previous pr version
-        run:
+        run: |
           npm pkg set version=1.0.1-pr1.1
           npm unpublish
 
