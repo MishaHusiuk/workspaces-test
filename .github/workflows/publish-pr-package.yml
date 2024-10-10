@@ -52,7 +52,7 @@ jobs:
 
           gh api \
           -H "X-GitHub-Api-Version: 2022-11-28" \
-          /orgs/MishaHusiuk/packages/npm/io/versions?per_page=90 \
+          /orgs/MishaHusiuk/workspaces-test/packages/npm/io/versions?per_page=90 \
           | jq -r '[ .[] | select(.name | contains("${{ steps.version.outputs.pr_deploy_version }}"))] | map(.name) | .[]' \
           >pre-tags.txt
 
@@ -68,6 +68,7 @@ jobs:
           fi
 
           npm pkg set version=$NEXT_VERSION
+          npm pkg set publishConfig.tag=pr
     
       - name: Publish to npm 
         env:
