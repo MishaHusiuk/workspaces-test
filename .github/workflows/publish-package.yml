@@ -37,7 +37,8 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           always-auth: true
           scope: '@mishahusiuk'
-
+      - name: log .npmrc
+        run: cat .npmrc
       - name: Install package dependencies
         working-directory: packages/${{ inputs.package }}
         run: npm install
