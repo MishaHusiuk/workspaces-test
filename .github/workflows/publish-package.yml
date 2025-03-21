@@ -34,22 +34,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ steps.node_version.outputs.NODE_VERSION }}
-          registry-url: 'https://npm.pkg.github.com'
-          always-auth: true
-          scope: '@mishahusiuk'
-      - name: log .npmrc
-        run: cat .npmrc
+          # registry-url: 'https://npm.pkg.github.com'
+          # always-auth: true
+          # scope: '@mishahusiuk'
       - name: Install package dependencies
         working-directory: packages/${{ inputs.package }}
         run: npm install
 
-      # - name: Prepare auth token
-      #   run: |
-      #     cat <<'EOF' >> .npmrc
-      #     registry=https://npm.pkg.github.com/
-      #     //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
-      #     always-auth=true
-      #     EOF
+      - name: Prepare auth token
+        run: |
+          cat <<'EOF' >> .npmrc
+          registry=https://npm.pkg.github.com/
+          //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+          always-auth=true
+          EOF
 
       - name: Publish NPM
         id: publish
