@@ -18,6 +18,10 @@ on:
         options: 
           - world
           - misha
+      branch:
+        description: 'Select the branch to run the workflow'
+        required: true
+        default: 'main'
 
 jobs:
   print:
