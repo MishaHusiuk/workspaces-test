@@ -1,17 +1,68 @@
-name: Publish NPM package
-run-name: Publish PR Version
+name: Publish
 
 on:
-  pull_request:
-    types: [opened, synchronize, labeled]
+  workflow_dispatch:
+    inputs:
+      package:
+        required: true
+        type: choice
+        options:
+          - math-operations
+          - io
 
 jobs:
   publish_npm:
     name: Publish package
+    runs-on: ubuntu-latest
+
     timeout-minutes: 30
-    
-    # if: contains(github.event.pull_request.labels.*.name, 'pr deploy') || github.event_name == 'push'
+    permissions:
+      packages: write
+      contents: read
 
     steps:
-      - name: echo
-        run: echo "hello world!"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Retrieve node version
+        run: |
+          echo "NODE_VERSION=$(cat package.json | jq -r .engines.node)" >> $GITHUB_OUTPUT
+        id: node_version
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.node_version.outputs.NODE_VERSION }} 
+
+      - name: Install package dependencies
+        working-directory: packages/${{ inputs.package }}
+        run: npm install
+
+      - name: Prepare auth token
+        run: |
+          cat <<'EOF' >> .npmrc
+          registry=https://npm.pkg.github.com/
+          //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+          always-auth=true
+          EOF
+
+      - name: Publish NPM
+        id: publish
+        working-directory: packages/${{ inputs.package }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: |
+          npm publish
+          PUBLISHED_VERSION=$(cat package.json | jq -r .version)
+          echo "published_version=$PUBLISHED_VERSION" >> $GITHUB_OUTPUT
+          echo "published version: $PUBLISHED_VERSION"
+
+      - name: Create tag
+        run: |
+          # git config user.email "mihagu36@gmail.com"
+          TAG=${{inputs.package}}@${{steps.publish.outputs.published_version}}
+          echo $TAG
+          git tag --force -m "$TAG" $TAG ${{ github.sha }}
+          echo "commit tagged"
+          git push origin $TAG --force
