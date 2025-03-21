@@ -36,7 +36,7 @@ jobs:
           node-version: ${{ steps.node_version.outputs.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com'
           always-auth: true
-          # scope: '@mishahusiuk'
+          scope: '@mishahusiuk'
 
       - name: Install package dependencies
         working-directory: packages/${{ inputs.package }}
