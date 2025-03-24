@@ -22,6 +22,14 @@ jobs:
       contents: write
 
     steps:
+      - name: Check branch name
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          if [[ "$BRANCH_NAME" != release/* && "$BRANCH_NAME" != "main" ]]; then
+            echo "❌ This workflow can only be triggered on 'release/*' branches or 'main'."
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v4
 
