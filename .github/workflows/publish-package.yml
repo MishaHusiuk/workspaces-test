@@ -58,7 +58,8 @@ jobs:
           EOF
 
       - name: Tag npm package as maintenance
-        # if: startsWith(github.ref, 'refs/heads/release/')
+        working-directory: packages/${{ inputs.package }}
+        if: startsWith(github.ref, 'refs/heads/release/')
         run: npm pkg set publishConfig.tag=maintenance
 
       - name: Publish NPM
