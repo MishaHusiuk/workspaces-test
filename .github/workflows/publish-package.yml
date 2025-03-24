@@ -57,8 +57,8 @@ jobs:
           always-auth=true
           EOF
 
-      - name: Tag custom release as maintenance
-        if: startsWith(github.ref, 'refs/heads/release/')
+      - name: Tag npm package as maintenance
+        # if: startsWith(github.ref, 'refs/heads/release/')
         run: npm pkg set publishConfig.tag=maintenance
 
       - name: Publish NPM
