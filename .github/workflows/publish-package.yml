@@ -63,7 +63,7 @@ jobs:
 
       - name: Create tag
         run: |
-          # git config user.email "mihagu36@gmail.com"
+          git config user.email "ci-bot@mishahusiuk.com"
           TAG=${{inputs.package}}@${{steps.publish.outputs.published_version}}
           echo $TAG
           git tag --force -m "$TAG" $TAG ${{ github.sha }}
