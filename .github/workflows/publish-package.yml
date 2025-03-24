@@ -57,6 +57,10 @@ jobs:
           always-auth=true
           EOF
 
+      - name: Tag custom release as maintenance
+        if: startsWith(github.ref, 'refs/heads/release/')
+        run: npm pkg set publishConfig.tag=maintenance
+
       - name: Publish NPM
         id: publish
         working-directory: packages/${{ inputs.package }}
